@@ -1,12 +1,18 @@
 const fs = require("fs");
 const path = require("path");
 const fastify = require("fastify")({ logger: true });
+const i18n = require('./locale');
 
 fastify.register(require("point-of-view"), {
   engine: {
     pug: require("pug"),
   },
 });
+
+fastify.addHook('onReady', function (done) {
+  i18n.init();
+  done();
+})
 
 fastify.register(require("fastify-markdown"), { src: true });
 
